@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "deploy": "cp -r out/mddeck_electron-darwin-x64/mddeck_electron.app /Applications",
+    "deploy": "cp -r out/MDDeck-darwin-x64/MDDeck.app /Applications",
     "make": "electron-forge make"
   },
   "author": "karino2",
@@ -23,6 +23,7 @@
   "dependencies": {
     "bulma": "^0.9.4",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.1.0",
     "electron-window-state": "^5.0.3",
     "highlight.js": "^11.9.0",
     "html-entities": "^2.4.0",

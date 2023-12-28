@@ -2,6 +2,7 @@ const { ipcMain, dialog, app, BrowserWindow, Menu, shell } = require('electron')
 const path = require('path')
 const fs = require('fs/promises')
 const windowStateKeeper = require('electron-window-state')
+const Store = require('electron-store')
 const hljs = require('highlight.js')
 const {encode} = require('html-entities')
 
@@ -38,7 +39,8 @@ const render = (md, dt) => {
 
 // const g_ITEM_LIMIT = 5
 const g_ITEM_LIMIT = 30
-let g_dir = ""
+
+const store = new Store()
 
 /**
  *   patに従うディレクトリ名（0パディングの数字）を数字的に新しい順にsortした配列として返す。
@@ -169,13 +171,11 @@ const renderCells = (cells)=> {
   return ret.join("\n")
 }
 
-
-g_dir = ""
-
 const saveRootDir = async(dir) => {
-  await fs.writeFile("mddeck_settings.txt", dir)
-  g_dir = dir
+  store.set('root-path', dir)
 }
+
+const getRootDir = ()=> { return store.get('root-path') }
 
 const openDirDialog = async (onSuccess) => {
   const {canceled, filePaths} = await dialog.showOpenDialog({
@@ -224,7 +224,7 @@ const template = [
           label: 'Reload',
           accelerator: 'CmdOrCtrl+R',
           click: async (item, focusedWindow)=> {
-            await loadDir(g_dir, focusedWindow)
+            await loadDir(getRootDir(), focusedWindow)
           }
       },
       { type: 'separator' },
@@ -263,23 +263,15 @@ const createWindow = async ()=>{
       shell.openExternal(url)
   })
 
-  try
-  {
-    g_dir = await readTextFile("mddeck_settings.txt")
-  }catch
-  {
-    // g_dir = "" is OK.
-  }
-  
-
-  if (g_dir == "") {
+  const rootPath = getRootDir()
+  if (rootPath == null) {
       await openDirDialog(async(dir)=>{
         await loadDir(dir, win)
       })
   }
   else
   {
-      await loadDir(g_dir, win)
+      await loadDir(rootPath, win)
   }
 }
 
@@ -313,7 +305,7 @@ const ensureDir = async (dir) => {
 }
 
 const date2dir = (dt) => {
-  return path.join(g_dir, dt.getFullYear().toString(), zeroPad(dt.getMonth()+1), zeroPad(dt.getDate()))
+  return path.join(getRootDir(), dt.getFullYear().toString(), zeroPad(dt.getMonth()+1), zeroPad(dt.getDate()))
 }
 
 const date2fullPath = (dt) => {

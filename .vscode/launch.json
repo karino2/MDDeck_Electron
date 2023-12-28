@@ -1,0 +1,37 @@
+{
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name" : "Electron: Debug Main Process",
+      "type": "node",
+      "request": "launch",
+      "protocol": "inspector",            
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "runtimeArgs": [
+          "--remote-debugging-port=9223",
+          "."
+      ],
+  },
+  {
+      "name": "Electron: Renderer",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9223,
+      "webRoot": "${workspaceFolder}",
+      "timeout": 30000
+  }        
+],
+"compounds": [
+  {
+      "name": "Electron: All",
+      "configurations": [
+          "Electron: Debug Main Process",
+          "Electron: Renderer"
+      ]
+  }
+]
+}

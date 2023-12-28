@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="ja-JP">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+        <!--
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">        
+        -->
+        <title>MD Deck</title>
+
+        <link rel="stylesheet" href="./node_modules/bulma/css/bulma.css">
+        <link rel="stylesheet" href="./node_modules/highlight.js/styles/github.css">
+        <style>
+            #edit-area {
+                width: 100%;
+                border: 8px solid #96505f;
+            }
+            .box {
+                padding: 1.25rem 1.25rem 0.5rem  
+            }
+        </style>    
+    </head>
+    <body id="body" style="background: #25e6b9">
+        <section class="section">
+            <div id="post-div">
+                <textarea id="post-area" class="textarea"></textarea>
+                <div class="level-right">
+                    <button class="button" id="submit-post">New</button>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div id="edit-div" style="display:none;">
+                <textarea id="edit-area" class="textarea"></textarea>
+                <div class="buttons level-right">
+                    <button class="button is-dark" id="cancel-edit">Cancel</button>
+                    <button class="button is-dark" id="submit-edit">Submit</button>
+                </div>
+            </div>
+            <div id="content-root" class="content"></div>
+        </section>
+    </body>
+</html>

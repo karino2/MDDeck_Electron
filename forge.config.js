@@ -2,6 +2,7 @@ module.exports = {
   packagerConfig: {
     asar: true,
     name: "MDDeck",
+    icon: "misc/icons/icon",
   },
   rebuildConfig: {},
   makers: [
